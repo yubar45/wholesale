@@ -11,12 +11,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  *
  * @author Yubar
  */
 @Entity(name = "States")
+@NamedQueries({
+        @NamedQuery(name = "com.avin.wholesale.persistence.state.AllStates", query = "select s from States s")
+})
 public class State implements Serializable {
     private int id;
     private String stateName;

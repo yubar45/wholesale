@@ -18,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,6 +31,10 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"owner", "category"})})
+@NamedQueries({
+    @NamedQuery(name = "com.avin.wholesale.persistence.ads.AllAds", query = "select a from Ads a"),
+    @NamedQuery(name = "com.avin.wholesale.persistence.ads.AdsByCategory", query = "select a from Ads a where a.category=:category")
+})
 public class Ads implements Serializable {
     private boolean confirmed=false;
     private int id;
@@ -36,7 +42,6 @@ public class Ads implements Serializable {
     private String description;
     private Date creationDate;
     private String address;
-    private String image;
     private User owner;
     private List<State> activityStates;
     private List<Contact> contacts;
@@ -84,14 +89,6 @@ public class Ads implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     @ManyToOne(optional = false)

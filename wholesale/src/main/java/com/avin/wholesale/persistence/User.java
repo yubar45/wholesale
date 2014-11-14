@@ -20,9 +20,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -31,6 +31,9 @@ import javax.persistence.TemporalType;
  * @author Yubar
  */
 @Entity(name = "Users")
+@NamedQueries({
+    @NamedQuery(name = "com.avin.wholesale.persistence.user.AllUsers", query = "select u from Users u")
+})
 public class User implements Serializable {
     private String firstName;
     private String lastName;

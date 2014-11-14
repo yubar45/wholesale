@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -22,6 +24,9 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity(name = "Cities")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"cityName","cityState"}))
+@NamedQueries({
+    @NamedQuery(name = "com.avin.wholesale.persistence.city.citiesByState", query = "select c from Cities c where c.cityState=:state")
+})
 public class City implements Serializable {
     private int id;
     private String cityName;

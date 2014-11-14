@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,26 +29,25 @@ import javax.persistence.UniqueConstraint;
 
 @Entity(name = "Categories")
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"categoryName", "parentCategory"})})
+@NamedQueries ({
+    @NamedQuery(name = "com.avin.wholesale.persistence.category.categoriesByParentCategory", query = "select c from Categories c where c.parentCategory=:parentCategory")
+})
 public class Category implements Serializable{
     private int id;
     private String categoryName;
     private Category parentCategory;
-    private String categoryImage;
     private int rank;
-    private Date creationDate;
     
     public Category(int id){
         this.id=id;
     }
     
     public Category() {
-        this.creationDate=new Date();
     }
 
     public Category(String categoryName, Category parentCategory) {
         this.categoryName = categoryName;
         this.parentCategory = parentCategory;
-        this.creationDate=new Date();
     }
 
     @Id
@@ -78,16 +79,6 @@ public class Category implements Serializable{
         this.parentCategory = parentCategory;
     }
 
-    public String getCategoryImage() {
-        return categoryImage;
-    }
-
-    public void setCategoryImage(String categoryImage) {
-        this.categoryImage = categoryImage;
-    }
-    
-    
-
     @Column(nullable = false)
     public int getRank() {
         return rank;
@@ -97,16 +88,6 @@ public class Category implements Serializable{
         this.rank = rank;
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -114,7 +95,6 @@ public class Category implements Serializable{
         hash = 13 * hash + Objects.hashCode(this.categoryName);
         hash = 13 * hash + Objects.hashCode(this.parentCategory);
         hash = 13 * hash + this.rank;
-        hash = 13 * hash + Objects.hashCode(this.creationDate);
         return hash;
     }
 
